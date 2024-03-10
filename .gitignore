@@ -1,3 +1,6 @@
 garbage/pingtester_22.py
 config.py
 hosts.yml
+myenv
+__pycache__
+
