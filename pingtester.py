@@ -1,4 +1,5 @@
 import subprocess
+import yaml
 
 class PingTester:
     def __init__(self, hosts_file):
@@ -6,9 +7,14 @@ class PingTester:
         self.hosts = self.read_hosts()
 
     def read_hosts(self):
-        """Читает список хостов из файла."""
+        """Читает список хостов и их описания из YAML файла."""
         with open(self.hosts_file, 'r') as file:
-            hosts = [line.strip() for line in file if line.strip()]
+            data = yaml.safe_load(file)
+        hosts = []
+        if 'hosts' in data:
+            for item in data['hosts']:
+                if 'host' in item:
+                    hosts.append(item['host'])
         return hosts
 
     def ping_test(self):
@@ -16,9 +22,11 @@ class PingTester:
         results = {}
         for host in self.hosts:
             response = subprocess.run(['ping', '-c', '1', host], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-            if response.returncode == 0:
-                results[host] = True
-            else:
-                results[host] = False
+            results[host] = response.returncode == 0
         return results
 
+    def get_unreachable_hosts(self):
+        """Возвращает список недоступных хостов после пинг-теста."""
+        results = self.ping_test()
+        unreachable_hosts = [host for host, is_reachable in results.items() if not is_reachable]
+        return unreachable_hosts
