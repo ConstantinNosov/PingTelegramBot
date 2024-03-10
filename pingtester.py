@@ -33,7 +33,7 @@ class PingTester:
     def get_unreachable_hosts(self):
         """Возвращает список недоступных хостов с их описаниями после пинг-теста."""
         results = self.ping_test()
-        # Изменение на включение описаний в вывод
+        # Включение описаний в вывод
         unreachable_hosts = [{ 'host': host, 'description': info['description']} 
                              for host, info in results.items() if not info['reachable']]
         return unreachable_hosts
