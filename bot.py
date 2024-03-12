@@ -1,6 +1,7 @@
 from bot_lib import TelegramBot
 from config import bot_token, chat_id
 from pingtester_lib import PingTester
+import time
 
 
 bot = TelegramBot(chat_id, bot_token)
@@ -13,4 +14,6 @@ def ip_test():
     if unreachable_hosts:
         bot.send_message(message_bot)
 
-ip_test()
+while True:
+    ip_test()
+    time.sleep(1800)

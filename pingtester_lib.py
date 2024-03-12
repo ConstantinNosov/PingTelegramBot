@@ -25,7 +25,7 @@ class PingTester:
         results = {}
         for host_info in self.hosts:
             host = host_info['host']
-            response = subprocess.run(['ping', '-c', '1', host], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            response = subprocess.run(['ping', '-c', '3', host], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             # Включение описания в результаты
             results[host] = {'reachable': response.returncode == 0, 'description': host_info['description']}
         return results

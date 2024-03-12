@@ -6,6 +6,7 @@ class TelegramBot:
         self.bot_token = bot_token
 
     def send_message(self, message):
+        """Отправляет сообщение боту."""
         response = requests.get(
             url=f"https://api.telegram.org/bot{self.bot_token}/sendMessage", 
             params={
